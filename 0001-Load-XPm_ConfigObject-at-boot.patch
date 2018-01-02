@@ -1,0 +1,45 @@
+From 3a1f60c4dd7d68f5243629890a57a37a34e45671 Mon Sep 17 00:00:00 2001
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Tue, 3 Oct 2017 10:09:07 +0200
+Subject: [PATCH 1/2] Load XPm_ConfigObject at boot
+
+This appears to be something that the FSBL does, but not the SPL loader, so
+do it here.
+---
+ lib/sw_apps/zynqmp_pmufw/src/pm_binding.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/lib/sw_apps/zynqmp_pmufw/src/pm_binding.c b/lib/sw_apps/zynqmp_pmufw/src/pm_binding.c
+index c0144b1..efaf18d 100644
+--- a/lib/sw_apps/zynqmp_pmufw/src/pm_binding.c
++++ b/lib/sw_apps/zynqmp_pmufw/src/pm_binding.c
+@@ -46,6 +46,9 @@
+ #include "pm_gic_proxy.h"
+ #include "pm_requirement.h"
+ #include "pm_extern.h"
++#include "pm_config.h"
++
++extern u32 XPm_ConfigObject[]; /* pm_cfg_obj.c */
+ 
+ /* All GIC wakes in GPI1 */
+ #define PMU_IOMODULE_GPI1_GIC_WAKES_ALL_MASK \
+@@ -56,6 +59,7 @@
+ 		PMU_IOMODULE_GPI1_R5_0_WAKE_MASK | \
+ 		PMU_IOMODULE_GPI1_R5_1_WAKE_MASK)
+ 
++
+ /**
+  * XPfw_PmInit() - initializes PM firmware
+  *
+@@ -70,6 +74,8 @@ void XPfw_PmInit(void)
+ 	PmMasterDefaultConfig();
+ 
+ 	PmNodeConstruct();
++	
++	PmConfigLoadObject((u32)&XPm_ConfigObject, 0xFFFFFFFFU);
+ }
+ 
+ /**
+-- 
+1.9.1
+
