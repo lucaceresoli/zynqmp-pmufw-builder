@@ -9,6 +9,7 @@ usage()
     echo "    SUBCMD can be:"
     echo "        - toolchain     install crosstool-NG locally and build toolchain"
     echo "        - pmufw-patch   patch the PMUFW sources to load cfg object"
+    echo "        - pmufw-build   build the PMUFW"
 }
 
 usage_exit() # message
@@ -44,8 +45,48 @@ pmufw_patch()
 	    pm_cfg_obj.c > embeddedsw/lib/sw_apps/zynqmp_pmufw/src/pm_cfg_obj.c
 }
 
+pmufw_build()
+{
+    TOPDIR="$(pwd)"
+
+    cd embeddedsw/lib/sw_apps/zynqmp_pmufw/src/
+
+    BSP_DIR="../misc/zynqmp_pmufw_bsp"
+    BSP_TARGETS_DIR="${BSP_DIR}/psu_pmu_0/libsrc"
+
+    CROSS="${HOME}/x-tools/microblazeel-unknown-elf/bin/microblazeel-unknown-elf-"
+    CC=${CROSS}gcc
+    AR=${CROSS}ar
+    AS=${CROSS}as
+    OBJCOPY=${CROSS}objcopy
+    CFLAGS="-mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div"
+
+    ../misc/copy_bsp.sh
+
+    # the Makefile in ${S}/../misc/Makefile, does not handle CC, AR, AS, etc
+    # properly. So do its job manually. Preparing the includes first, then libs.
+    for i in $(ls ${BSP_TARGETS_DIR}/*/src/Makefile); do
+        make -C $(dirname $i) \
+             CC="${CC}" \
+             AR="${AR}" \
+             AS="${AS}" \
+             COMPILER="${CC}" \
+             COMPILER_FLAGS="-O2 -c" \
+             EXTRA_COMPILER_FLAGS="-g -Wall -Wextra -Os -flto -ffat-lto-objects -DXGetPSVersion_Info=atexit" \
+             ARCHIVER="${AR}" \
+             CFLAGS="${CFLAGS}" \
+             include libs
+    done
+
+    make CC="${CC}" CC_FLAGS="-MMD -MP" CFLAGS="${CFLAGS}"
+
+    ${OBJCOPY} -O binary executable.elf executable.bin
+    cp executable.bin "${TOPDIR}"/pmufw.bin
+}
+
 case "${1}" in
     toolchain)    build_toolchain;;
     pmufw-patch)  pmufw_patch;;
+    pmufw-build)  pmufw_build;;
     *)            usage_exit "Unknown subcommand '${1}'"
 esac
