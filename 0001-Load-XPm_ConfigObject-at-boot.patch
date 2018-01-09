@@ -23,15 +23,7 @@ index c0144b1..efaf18d 100644
  
  /* All GIC wakes in GPI1 */
  #define PMU_IOMODULE_GPI1_GIC_WAKES_ALL_MASK \
-@@ -56,6 +59,7 @@
- 		PMU_IOMODULE_GPI1_R5_0_WAKE_MASK | \
- 		PMU_IOMODULE_GPI1_R5_1_WAKE_MASK)
- 
-+
- /**
-  * XPfw_PmInit() - initializes PM firmware
-  *
-@@ -70,6 +74,8 @@ void XPfw_PmInit(void)
+@@ -70,6 +73,8 @@ void XPfw_PmInit(void)
  	PmMasterDefaultConfig();
  
  	PmNodeConstruct();
