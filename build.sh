@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# SPDX-License-Identifier: Unlicense
+# This is free and unencumbered software released into the public domain
+
 set -e
 set -u
 
