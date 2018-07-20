@@ -33,7 +33,7 @@ Usage
 3. Optionally you can overwrite `pm_cfg_obj.c` with the configuration
    object for your design.
 
-4. Then patch the PMUFM sources so it loads a hard-coded configuraton
+4. Then patch the PMUFW sources so it loads a hard-coded configuraton
    object from `pm_cfg_obj.c`:
 
        ./build.sh pmufw-patch
