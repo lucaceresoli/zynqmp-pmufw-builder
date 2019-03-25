@@ -75,7 +75,7 @@ pmufw_build()
              AS="${AS}" \
              COMPILER="${CC}" \
              COMPILER_FLAGS="-O2 -c" \
-             EXTRA_COMPILER_FLAGS="-g -Wall -Wextra -Os -flto -ffat-lto-objects -DXGetPSVersion_Info=atexit" \
+             EXTRA_COMPILER_FLAGS="-g -Wall -Wextra -Os -flto -ffat-lto-objects" \
              ARCHIVER="${AR}" \
              CFLAGS="${CFLAGS}" \
              include libs
