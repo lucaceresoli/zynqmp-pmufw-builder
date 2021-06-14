@@ -70,8 +70,13 @@ pmufw_build()
     # succeeds but FPGA configuration will be silently ignored by the
     # resulting PMUFW.
     # From: https://github.com/Xilinx/meta-xilinx/commit/2c98fa11ccf33b6d9a550bebf50d2a2a876f9afb
-    cp ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/interface/zynqmp/* \
-       ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/
+    if ! [ -f ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/xilfpga_pcap.c ] && \
+         [ -f ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/interface/zynqmp/xilfpga_pcap.c ];
+    then
+	echo "Applying xilfpga zynqmp workaround"
+	cp ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/interface/zynqmp/* \
+	   ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/
+    fi
 
     # the Makefile in ${S}/../misc/Makefile, does not handle CC, AR, AS, etc
     # properly. So do its job manually. Preparing the includes first, then libs.
