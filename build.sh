@@ -96,6 +96,7 @@ pmufw_build()
     make CC="${CC}" CC_FLAGS="-MMD -MP" CFLAGS="${CFLAGS}"
 
     ${OBJCOPY} -O binary executable.elf executable.bin
+    cp executable.elf "${TOPDIR}"/pmufw.elf
     cp executable.bin "${TOPDIR}"/pmufw.bin
 
     # Sanity checks
