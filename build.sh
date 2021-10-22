@@ -11,7 +11,7 @@ usage()
     echo "Usage: $(basename $0) SUBCMD"
     echo "    SUBCMD can be:"
     echo "        - toolchain     install crosstool-NG locally and build toolchain"
-    echo "        - pmufw-patch   patch the PMUFW sources to load cfg object"
+    echo "        - pmufw-patch   patch the PMUFW sources to load cfg object (DEPRECATED)"
     echo "        - pmufw-build   build the PMUFW"
 }
 
