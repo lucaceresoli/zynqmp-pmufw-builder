@@ -56,6 +56,8 @@ pmufw_build()
 
     BSP_DIR="../misc/zynqmp_pmufw_bsp"
     BSP_TARGETS_DIR="${BSP_DIR}/psu_pmu_0/libsrc"
+    BSP_TARGETS_LIBDIR="${BSP_DIR}/psu_pmu_0/lib"
+    BSP_LIBXIL="${BSP_TARGETS_LIBDIR}/libxil.a"
 
     CROSS="${HOME}/x-tools/microblazeel-xilinx-elf/bin/microblazeel-xilinx-elf-"
     CC=${CROSS}gcc
@@ -65,6 +67,9 @@ pmufw_build()
     CFLAGS="-mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div -Os -flto -ffat-lto-objects"
 
     ../misc/copy_bsp.sh
+
+    # Disable barrel shifter self test (unknown opcodes bsifi/bsefi in gcc 11.2.0 / crosstool-NG 1.24.0.500_584e57e)
+    sed -e 's|#define XPAR_MICROBLAZE_USE_BARREL 1|#define XPAR_MICROBLAZE_USE_BARREL 0|' -i ../misc/zynqmp_pmufw_bsp/psu_pmu_0/include/xparameters.h
 
     # Fix xilfpga to include the zynqmp backend. Without this the build
     # succeeds but FPGA configuration will be silently ignored by the
@@ -92,6 +97,9 @@ pmufw_build()
              CFLAGS="${CFLAGS}" \
              include libs
     done
+
+    # Emulate the final archiving step by moving all .o's into libxil.a
+    find ${BSP_TARGETS_LIBDIR} -type f -name "*.o" -exec ${AR} -r ${BSP_LIBXIL} {} \;
 
     make CC="${CC}" CC_FLAGS="-MMD -MP" CFLAGS="${CFLAGS}"
 
