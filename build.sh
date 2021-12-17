@@ -56,6 +56,8 @@ pmufw_build()
 
     BSP_DIR="../misc/zynqmp_pmufw_bsp"
     BSP_TARGETS_DIR="${BSP_DIR}/psu_pmu_0/libsrc"
+    BSP_TARGETS_LIBDIR="${BSP_DIR}/psu_pmu_0/lib"
+    BSP_LIBXIL="${BSP_TARGETS_LIBDIR}/libxil.a"
 
     CROSS="${HOME}/x-tools/microblazeel-xilinx-elf/bin/microblazeel-xilinx-elf-"
     CC=${CROSS}gcc
@@ -95,6 +97,9 @@ pmufw_build()
              CFLAGS="${CFLAGS}" \
              include libs
     done
+
+    # Emulate the final archiving step by moving all .o's into libxil.a
+    find ${BSP_TARGETS_LIBDIR} -type f -name "*.o" -exec ${AR} -r ${BSP_LIBXIL} {} \;
 
     make CC="${CC}" CC_FLAGS="-MMD -MP" CFLAGS="${CFLAGS}"
 
