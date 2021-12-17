@@ -66,6 +66,9 @@ pmufw_build()
 
     ../misc/copy_bsp.sh
 
+    # Disable barrel shifter self test (unknown opcodes bsifi/bsefi in gcc 11.2.0 / crosstool-NG 1.24.0.500_584e57e)
+    sed -e 's|#define XPAR_MICROBLAZE_USE_BARREL 1|#define XPAR_MICROBLAZE_USE_BARREL 0|' -i ../misc/zynqmp_pmufw_bsp/psu_pmu_0/include/xparameters.h
+
     # Fix xilfpga to include the zynqmp backend. Without this the build
     # succeeds but FPGA configuration will be silently ignored by the
     # resulting PMUFW.
