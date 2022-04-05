@@ -19,7 +19,7 @@ Usage
 
 1. Get the source code:
 
-       git clone --recursive https://github.com/lucaceresoli/zynqmp-pmufw-builder.git
+       git clone --recurse-submodules https://github.com/lucaceresoli/zynqmp-pmufw-builder.git
        cd zynqmp-pmufw-builder
 
 2. Generate a suitable microblaze toolchain (this is normally needed
