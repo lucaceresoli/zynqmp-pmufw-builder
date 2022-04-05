@@ -1,6 +1,6 @@
 [submodule "crosstool-ng"]
 	path = crosstool-ng
-	url = git://github.com/crosstool-ng/crosstool-ng.git
+	url = https://github.com/crosstool-ng/crosstool-ng.git
 [submodule "embeddedsw"]
 	path = embeddedsw
-	url = git://github.com/Xilinx/embeddedsw.git
+	url = https://github.com/Xilinx/embeddedsw.git
