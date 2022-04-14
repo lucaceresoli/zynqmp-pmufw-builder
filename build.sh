@@ -64,7 +64,7 @@ pmufw_build()
     AR=${CROSS}ar
     AS=${CROSS}as
     OBJCOPY=${CROSS}objcopy
-    CFLAGS="-mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div -Os -flto -ffat-lto-objects"
+    CFLAGS="-Wno-stringop-overflow -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div -Os -flto -ffat-lto-objects"
 
     ../misc/copy_bsp.sh
 
