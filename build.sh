@@ -8,24 +8,26 @@ set -u
 
 usage()
 {
-    echo "Usage: $(basename $0) SUBCMD"
+    echo "Usage: $(basename $0) [-c CONFIG] SUBCMD"
+    echo
     echo "    SUBCMD can be:"
     echo "        - toolchain     install crosstool-NG locally and build toolchain"
     echo "        - pmufw-patch   patch the PMUFW sources to load cfg object (DEPRECATED)"
     echo "        - pmufw-build   build the PMUFW"
+    echo
+    echo "    CONFIG is an optional configuration preset for a specific SoM or board."
 }
 
-usage_exit() # message
+# $1: exit value
+# $2: message
+usage_exit()
 {
     (
-	echo "$1"
-	echo
+	echo "${2:-}"
 	usage
     ) >&2
-    exit 255
+    exit ${1}
 }
-
-[ $# -ge 1 ] || usage_exit "SUBCMD not passed"
 
 build_toolchain()
 {
@@ -65,6 +67,11 @@ pmufw_build()
     AS=${CROSS}as
     OBJCOPY=${CROSS}objcopy
     CFLAGS+=" -Wno-stringop-overflow -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div -Os -flto -ffat-lto-objects"
+
+    case ${BOARD_CONFIG} in
+	"") ;;
+	*)  usage_exit 1 "Unknown config '${BOARD_CONFIG}'" ;;
+    esac
 
     ../misc/copy_bsp.sh
 
@@ -121,9 +128,21 @@ pmufw_build()
     fi
 }
 
+BOARD_CONFIG=""
+while getopts "hc:" FLAG; do
+    case ${FLAG} in
+	c)  BOARD_CONFIG="${OPTARG}" ;;
+	h)  usage_exit 0 ;;
+	\?) usage_exit 255 ;;
+    esac
+done
+shift $((OPTIND-1))
+
+[ $# -ge 1 ] || usage_exit 255 "SUBCMD not passed"
+
 case "${1}" in
     toolchain)    build_toolchain;;
     pmufw-patch)  pmufw_patch;;
     pmufw-build)  pmufw_build;;
-    *)            usage_exit "Unknown subcommand '${1}'"
+    *)            usage_exit 255 "Unknown subcommand '${1}'"
 esac
