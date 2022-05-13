@@ -21,8 +21,8 @@ usage_exit() # message
 	echo "$1"
 	echo
 	usage
-	exit 255
     ) >&2
+    exit 255
 }
 
 [ $# -ge 1 ] || usage_exit "SUBCMD not passed"
