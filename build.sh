@@ -48,7 +48,7 @@ pmufw_patch()
     patch -f -p1 --directory=embeddedsw <0001-Load-XPm_ConfigObject-at-boot.patch || \
 	    echo "NOTE: this patch has probably already been applied, skipping it"
 
-    sed 's!"pm_defs.h"!"../../../sw_services/xilpm/src/common/pm_defs.h"!' \
+    sed 's!"pm_defs.h"!"../../../sw_services/xilpm/src/zynqmp/client/common/pm_defs.h"!' \
 	    pm_cfg_obj.c > embeddedsw/lib/sw_apps/zynqmp_pmufw/src/pm_cfg_obj.c
 }
 
