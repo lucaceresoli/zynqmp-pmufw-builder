@@ -35,7 +35,7 @@ Usage
        ./build.sh pmufw-build
 
    The PMU firmware will be called `pmufw.bin` in the current directory.
-   Custom compiler clags can be passed in the `CFLAGS` environment
+   Custom compiler flags can be passed in the `CFLAGS` environment
    variable, E.G.:
 
        CFLAGS="-DENABLE_EM" ./build.sh pmufw-build
