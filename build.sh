@@ -39,7 +39,7 @@ build_toolchain()
     ./bootstrap
     ./configure --enable-local
     make
-    yes "" | ./ct-ng oldconfig
+    ./ct-ng olddefconfig
     ./ct-ng build
 }
 
