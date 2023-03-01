@@ -56,6 +56,10 @@ pmufw_build()
 {
     TOPDIR="$(pwd)"
 
+    FIX_PATCH="pmufw-pm_sram-use-32-bit-writes-for-tcm-ecc-init.patch"
+    patch --force -p1 --directory=embeddedsw <${FIX_PATCH} || \
+	echo "NOTE: ${FIX_PATCH} probably already applied, skipping it"
+
     cd embeddedsw/lib/sw_apps/zynqmp_pmufw/src/
 
     BSP_DIR="../misc/zynqmp_pmufw_bsp"
