@@ -28,7 +28,7 @@ Usage
        ./build.sh toolchain
 
    At the end a toolchain will be available in
-   `~/x-tools/microblazeel-unknown-elf/`.
+   `~/x-tools/microblazeel-xilinx-elf/`.
 
 3. Build it:
 
