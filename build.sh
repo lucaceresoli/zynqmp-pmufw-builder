@@ -16,7 +16,9 @@ usage()
     echo
     echo "    CONFIG is an optional configuration preset for a specific SoM or board."
     echo "    Available configs:"
-    echo "        - k26           Xilinx Kria K26 SoM"
+    echo "        - kria          AMD/Xilinx Kria SoM"
+    echo "        - k26           Deprecated config option since all Kria SoMs"
+    echo "                        will have the same additional build config."
 }
 
 # $1: exit value
@@ -63,7 +65,7 @@ pmufw_build()
     CFLAGS+=" -Wno-stringop-overflow -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div -Os -flto -ffat-lto-objects"
 
     case ${BOARD_CONFIG} in
-	k26) CFLAGS+=" -DBOARD_SHUTDOWN_PIN=2 -DBOARD_SHUTDOWN_PIN_STATE=0 -DENABLE_EM -DENABLE_MOD_OVERTEMP -DENABLE_DYNAMIC_MIO_CONFIG -DENABLE_IOCTL -DCONNECT_PMU_GPO_2_VAL=0" ;;
+	kria|k26) CFLAGS+=" -DBOARD_SHUTDOWN_PIN=2 -DBOARD_SHUTDOWN_PIN_STATE=0 -DENABLE_EM -DENABLE_MOD_OVERTEMP -DENABLE_DYNAMIC_MIO_CONFIG -DENABLE_IOCTL -DCONNECT_PMU_GPO_2_VAL=0" ;;
 	"") ;;
 	*)  usage_exit 1 "Unknown config '${BOARD_CONFIG}'" ;;
     esac
