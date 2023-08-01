@@ -8,7 +8,7 @@ set -u
 
 usage()
 {
-    echo "Usage: $(basename $0) [-c CONFIG] SUBCMD"
+    echo "Usage: $(basename "$0") [-c CONFIG] SUBCMD"
     echo
     echo "    SUBCMD can be:"
     echo "        - toolchain     install crosstool-NG locally and build toolchain"
@@ -28,7 +28,7 @@ usage_exit()
 	echo "${2:-}"
 	usage
     ) >&2
-    exit ${1}
+    exit "${1}"
 }
 
 build_toolchain()
