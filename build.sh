@@ -13,6 +13,7 @@ usage()
     echo "    SUBCMD can be:"
     echo "        - toolchain     install crosstool-NG locally and build toolchain"
     echo "        - pmufw-build   build the PMUFW"
+    echo "        - pmufw-clean   remove the intermediate PMUFW build output"
     echo
     echo "    CONFIG is an optional configuration preset for a specific SoM or board."
     echo "    Available configs:"
@@ -92,6 +93,13 @@ pmufw_build()
     fi
 }
 
+pmufw_clean()
+{
+    make -C embeddedsw/lib/sw_apps/zynqmp_pmufw/src/ clean
+    rm -f embeddedsw/lib/sw_apps/zynqmp_pmufw/src/executable.bin
+    rm -f pmufw.elf pmufw.bin
+}
+
 BOARD_CONFIG=""
 while getopts "hc:" FLAG; do
     case ${FLAG} in
@@ -107,5 +115,6 @@ shift $((OPTIND-1))
 case "${1}" in
     toolchain)    build_toolchain;;
     pmufw-build)  pmufw_build;;
+    pmufw-clean)  pmufw_clean;;
     *)            usage_exit 255 "Unknown subcommand '${1}'"
 esac
