@@ -48,14 +48,6 @@ pmufw_build()
 {
     TOPDIR="$(pwd)"
 
-    FIX_PATCH="pmufw-misc-Makefile-specify-sequential-Makefiles.patch"
-    if ! patch --force -p1 --directory=embeddedsw --dry-run --silent --reverse <${FIX_PATCH} 1>/dev/null
-    then
-	patch --force -p1 --directory=embeddedsw <${FIX_PATCH}
-    else
-	echo "patch ${FIX_PATCH} already applied, skipping it"
-    fi
-
     cd embeddedsw/lib/sw_apps/zynqmp_pmufw/src/
 
     CROSS="${HOME}/x-tools/microblazeel-xilinx-elf/bin/microblazeel-xilinx-elf-"
