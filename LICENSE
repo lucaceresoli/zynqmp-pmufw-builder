@@ -1,13 +1,4 @@
-This repository contains both original files and files from other
-authors.
-
-0001-Load-XPm_ConfigObject-at-boot.patch is a derived work
-of Xilinx embeddedsw, and is covered by the same license.
-
-pm_cfg_obj.c is Copyright (C) 2017 Xilinx, Inc. and released under the
-license contained in its heading.
-
-The other files in this repository (not including the git submodules)
+The files in this repository (not including the git submodules)
 are released in the public domain, under the "Unlicense" license whose
 text follows.
 
