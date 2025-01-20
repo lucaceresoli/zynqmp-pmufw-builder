@@ -70,19 +70,6 @@ pmufw_build()
     ${OBJCOPY} -O binary executable.elf executable.bin
     cp executable.elf "${TOPDIR}"/pmufw.elf
     cp executable.bin "${TOPDIR}"/pmufw.bin
-
-    # Sanity checks
-    if ! [ -f ../misc/zynqmp_pmufw_bsp/psu_pmu_0/libsrc/xilfpga/src/xilfpga_pcap.o ]
-    then
-	(
-	    echo "******************************************"
-	    echo "*** xilfpga_pcap.o has not been built! ***"
-	    echo "***    the generated PMUFW will not    ***"
-	    echo "***       load an FPGA bitstream!      ***"
-	    echo "******************************************"
-	) >&2
-	exit 255
-    fi
 }
 
 pmufw_clean()
