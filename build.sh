@@ -54,7 +54,7 @@ pmufw_build()
     CC=${CROSS}gcc
     AR=${CROSS}ar
     OBJCOPY=${CROSS}objcopy
-    CFLAGS+=" -Wno-stringop-overflow -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-reorder -mcpu=v9.2 -mxl-soft-mul -mxl-soft-div -Os -flto -ffat-lto-objects"
+    CFLAGS+=" -Os -flto -ffat-lto-objects"
 
     case ${BOARD_CONFIG} in
 	kria|k26) CFLAGS+=" -DK26_SOM" ;;
