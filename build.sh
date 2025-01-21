@@ -67,15 +67,13 @@ pmufw_build()
 
     make COMPILER="${CC}" ARCHIVER="${AR}" CC="${CC}" CFLAGS="${CFLAGS}"
 
-    ${OBJCOPY} -O binary executable.elf executable.bin
     cp executable.elf "${TOPDIR}"/pmufw.elf
-    cp executable.bin "${TOPDIR}"/pmufw.bin
+    ${OBJCOPY} -O binary "${TOPDIR}"/pmufw.elf "${TOPDIR}"/pmufw.bin
 }
 
 pmufw_clean()
 {
     make -C embeddedsw/lib/sw_apps/zynqmp_pmufw/src/ clean
-    rm -f embeddedsw/lib/sw_apps/zynqmp_pmufw/src/executable.bin
     rm -f pmufw.elf pmufw.bin
 }
 
