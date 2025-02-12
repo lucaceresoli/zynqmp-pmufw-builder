@@ -62,9 +62,6 @@ pmufw_build()
 	*)  usage_exit 1 "Unknown config '${BOARD_CONFIG}'" ;;
     esac
 
-    # Disable barrel shifter self test (unknown opcodes bsifi/bsefi in gcc 11.2.0 / crosstool-NG 1.24.0.500_584e57e)
-    sed -e 's|#define XPAR_MICROBLAZE_USE_BARREL 1|#define XPAR_MICROBLAZE_USE_BARREL 0|' -i ../misc/xparameters.h
-
     make COMPILER="${CC}" ARCHIVER="${AR}" CC="${CC}" CFLAGS="${CFLAGS}"
 
     cp executable.elf "${TOPDIR}"/pmufw.elf
